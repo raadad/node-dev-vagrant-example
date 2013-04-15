@@ -59,7 +59,7 @@ npminstall:
     - pkg: npm
 
 
-#/vagrant/node-example-estore:
+#/vagrant/
 #  npm.bootstrap:
 #    - require:
 #      - pkg: npm
