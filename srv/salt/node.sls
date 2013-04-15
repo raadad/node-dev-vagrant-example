@@ -57,7 +57,7 @@ database-setup:
 
 npminstall:
   cmd.run:
-    - name: npm-install
+    - name: npm install
     - cwd: /vagrant/
   require:
     - pkg: npm
