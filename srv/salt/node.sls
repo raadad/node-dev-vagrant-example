@@ -1,4 +1,11 @@
-nodejs:
+build-essential:
+  pkg:
+    - installed
+libexpat1-dev:
+  pkg:
+    - installed
+
+installed:
   pkg:
     - installed
 npm:
@@ -18,17 +25,18 @@ mysql:
   require:
     - pkg: mysql-server
 
+
 python-mysqldb:
   pkg:
     - installed
+  require:
+    - pkg: mysql-server
+
 
 database-setup:
   mysql_user.present:
     - name: testuser
     - password: devman
-    - require:
-      - pkg: python-mysqldb
-      - service: mysql
 
   mysql_database.present:
     - name: exampledb
@@ -41,3 +49,23 @@ database-setup:
     - user: testuser
     - require:
       - mysql_database : database-setup
+  require:
+    - pkg: python-mysqldb
+    - service: mysql
+
+
+
+npminstall:
+  cmd.run:
+    - name: npm-install
+    - cwd: /vagrant/
+  require:
+    - pkg: npm
+
+
+#/vagrant/node-example-estore:
+#  npm.bootstrap:
+#    - require:
+#      - pkg: npm
+#      - pkg: build-essential
+#      - pkg: libexpat1-dev
