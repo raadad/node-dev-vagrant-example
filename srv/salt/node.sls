@@ -4,10 +4,6 @@ build-essential:
 libexpat1-dev:
   pkg:
     - installed
-
-installed:
-  pkg:
-    - installed
 npm:
   pkg:
     - installed
