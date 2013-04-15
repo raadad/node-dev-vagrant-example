@@ -7,3 +7,7 @@ Vagrant.configure("2") do |config|
 	end
 end
 
+Vagrant::Config.run do |config|
+  
+end
+
