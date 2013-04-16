@@ -33,27 +33,26 @@ python-mysqldb:
     - pkg: mysql-server
 
 
-database-setup:
-  mysql_user.present:
-    - name: testuser
-    - password: devman
-    - require:
-      - pkg: python-mysqldb
-      - service: mysql
+mysql_user.present:
+  - name: testuser
+  - password: devman
+  - require:
+    - pkg: python-mysqldb
+    - service: mysql
 
-  mysql_database.present:
-    - name: exampledb
-    - require:
-      - pkg: python-mysqldb
-      - service: mysql
+mysql_database.present:
+  - name: exampledb
+  - require:
+    - pkg: python-mysqldb
+    - service: mysql
 
 
-  mysql_grants.present:
-    - grant: all privileges
-    - database: exampledb.*
-    - user: testuser
-    - require:
-      - mysql_database.present : database-setup
+mysql_grants.present:
+  - grant: all privileges
+  - database: exampledb.*
+  - user: testuser
+  - require:
+    - mysql_database.present
       
 
 
