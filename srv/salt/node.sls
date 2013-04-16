@@ -4,6 +4,10 @@ build-essential:
 libexpat1-dev:
   pkg:
     - installed
+
+nodejs
+  pkg:
+    - installed
 npm:
   pkg:
     - installed
@@ -36,20 +40,17 @@ database-setup:
 
   mysql_database.present:
     - name: exampledb
-    - require:
-      - mysql_user : database-setup
 
   mysql_grants.present:
     - grant: all privileges
     - database: exampledb.*
     - user: testuser
     - require:
-      - mysql_database : database-setup
+      - mysql_database.present : database-setup
+      
   require:
     - pkg: python-mysqldb
     - service: mysql
-
-
 
 npminstall:
   cmd.run:
@@ -57,6 +58,8 @@ npminstall:
     - cwd: /vagrant/
   require:
     - pkg: npm
+    - pkg: build-essential
+    - pkg: libexpat1-dev
 
 
 #/vagrant/
