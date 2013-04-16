@@ -43,6 +43,10 @@ database-setup:
 
   mysql_database.present:
     - name: exampledb
+    - require:
+      - pkg: python-mysqldb
+      - service: mysql
+
 
   mysql_grants.present:
     - grant: all privileges
