@@ -37,6 +37,9 @@ database-setup:
   mysql_user.present:
     - name: testuser
     - password: devman
+    - require:
+      - pkg: python-mysqldb
+      - service: mysql
 
   mysql_database.present:
     - name: exampledb
@@ -48,9 +51,7 @@ database-setup:
     - require:
       - mysql_database.present : database-setup
       
-  require:
-    - pkg: python-mysqldb
-    - service: mysql
+
 
 npminstall:
   cmd.run:
