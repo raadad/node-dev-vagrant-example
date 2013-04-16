@@ -5,7 +5,7 @@ libexpat1-dev:
   pkg:
     - installed
 
-nodejs
+nodejs:
   pkg:
     - installed
 npm:
