@@ -10,23 +10,26 @@ mysql:
 python-mysqldb:
   pkg.installed
 
+coffeescript:
+  pkg.installed
+
 dbconfig:
   mysql_user.present:
-    - name: testuser
+    - name: vagruser
     - password: devman
     - require:
       - service: mysql
       - pkg: python-mysqldb
 
   mysql_database.present:
-    - name: exampledb
+    - name: workoutbot
     - require:
       - mysql_user.present: dbconfig
 
   mysql_grants.present:
     - grant: all privileges
-    - database: exampledb.*
-    - user: testuser
+    - database: workoutbot.*
+    - user: vagruser
     - require:
       - mysql_database.present : dbconfig 
 
@@ -36,22 +39,36 @@ nodejs:
 npm:
   pkg.installed
 
-coffeescript:
-  pkg.installed
-
 build-essential:
   pkg.installed
-    
-libexpat1-dev:
+
+screen:
   pkg.installed
-
-
+    
 npminstall:
   cmd.run:
     - name: npm install
     - cwd: /vagrant/
     - require:
-      - pkg: npm 
+      - pkg: nodejs
+      - pkg: npm       
       - pkg: build-essential
-      - pkg: libexpat1-dev
       - pkg: mysql-server
+
+initapp:
+  cmd.run:
+    - name: node entry.js init
+    - cwd: /vagrant/
+    - require:
+      - cmd.run: npminstall
+      - mysql_grants : dbconfig
+
+startapp:
+  cmd.run:
+    - name: screen -dmS newscreen nohup node entry.js start >> logfile.log
+    - cwd: /vagrant/
+    - require:
+      - cmd.run: initapp
+      - pkg: screen
+
+

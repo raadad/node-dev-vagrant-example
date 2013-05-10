@@ -8,6 +8,6 @@ Vagrant.configure("2") do |config|
 end
 
 Vagrant::Config.run do |config|
-  
+  config.vm.forward_port 3200, 3200
 end
 
